@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [build]
   functions = "netlify/functions"
 
@@ -5,3 +6,12 @@
   from = "/api/updates"
   to = "/.netlify/functions/updates"
   status = 200
+=======
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/updates"
+  to = "/.netlify/functions/updates"
+  status = 200
+>>>>>>> b99f3c1 (primeiro commit (guestbook + updates))
