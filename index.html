@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⌞ vm ⌝</title>
+    <link rel="icon" href="images/cdgif.ico" type="image/icon">
+    
+</head>
+<body>
+    <style>
+        body {
+            background-image: url(/images/bgcenter.jpg);
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: black;
+            text-align: center;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar table {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        .navbar td {
+            padding: 10px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
+        }
+        
+        .section {
+            background: black;
+            color: white;
+            padding: 10px;
+            margin: 0;
+            width: 70%;
+            max-width: 450px;
+        }
+
+        .section a{
+            color: white;
+        }
+
+        .section-links {
+            background: black;
+            color: white;
+            padding: 10px;
+            margin: 0;
+            width: 40%;
+            max-width: 200px;
+        }
+
+        .section-links a {
+            color: white;
+        }
+
+        .container-sections {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        a img {
+            display: block;
+        }
+
+        a {
+            display:inline-block;
+        }
+
+        @media (max-width: 768px) {
+
+            .container-sections {
+                flex-direction: column; 
+            }
+
+            .section, article, textarea {
+                width: 90%;
+                max-width: 100%;
+            }
+
+            .navbar table {
+                width: 100%;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+    </style>
+
+    <h1 class="title">membrana's<sup>webcorner*</sup></h1>
+    <p class="sub-title">a.k.a vinícius moura's personal webpage</p>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <table cellspacing="5" cellpadding="5">
+                <tr>
+                    <td><a href="index.html" title="home">home</a></td>
+                    <td><a href="guests.html" title="guestbook">guestbook</a></td>
+                    <td><a href="updates.html" title="updates">updates</a></td>
+                </tr>
+            </table>
+        </div>
+    </nav>
+    
+    <h2>
+        <img width="100" src="/gifs/cdgif.gif"/>
+    </h2>
+
+    <div class="container-sections">
+        <section class="section">
+            <p>“this morning i woke up in a curfew.</p>
+            <p>oh god, i was a prisoner too.”</p>
+        </section>
+    </div>
+   
+    <a href="about.html"><h2><img width="470" src="images/eye1.jpg" width="100%"></h2></a>
+
+    <section class="section-links">
+        <p><a href="https://www.instagram.com/vm.exe/" title="ig" target="_blank">- insta</a></p>
+        <p><a href="https://www.last.fm/user/vs-m" title="lastfm" target="_blank">- last.fm</a></p>
+        <p><a href="https://www.linkedin.com/in/vsmoura-2703/" title="linkedin" target="_blank">- linkedin</a></p>
+        <p><a href="https://github.com/vs-m" title="github" target="_blank">- github</a></p>
+    </section>
+   
+</body>
+</html>

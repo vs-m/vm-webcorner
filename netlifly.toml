@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/updates"
+  to = "/.netlify/functions/updates"
+  status = 200

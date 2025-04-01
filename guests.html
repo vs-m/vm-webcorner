@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⌞ vm ⌝</title>
+    <link rel="icon" href="images/cdgif.ico" type="image/icon">
+</head>
+<body>
+    <style>
+        body {
+            background-image: url(/images/guestsbg.jpg);
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: white;
+            text-align: center;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar table {
+            border-top: 1px solid white;
+            border-bottom: 1px solid white;
+        }
+
+        .navbar td {
+            padding: 10px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .section {
+            background: black;
+            color: white;
+            padding: 10px;
+            margin: 0;
+            width: 70%;
+            max-width: 450px;
+        }
+
+        .section a {
+            color: white;
+        }
+
+        .container-sections {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .container-sections {
+                flex-direction: column; 
+            }
+
+            .section, article, textarea {
+                width: 90%;
+                max-width: 100%;
+            }
+
+            .navbar table {
+                width: 100%;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <h1 class="title">membrana's<sup>webcorner*</sup></h1>
+    <p class="sub-title">a.k.a vinícius moura's personal webpage</p>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <table cellspacing="5" cellpadding="5">
+                <tr>
+                    <td><a href="index.html" title="home">home</a></td>
+                    <td><a href="guests.html" title="guestbook">guestbook</a></td>
+                    <td><a href="updates.html" title="updates">updates</a></td>
+                </tr>
+            </table>
+        </div>
+    </nav>
+
+    <div class="container-sections">
+        <div class="section">
+            <h2>vm's guestbook</h2>
+            <p>contemple o invisível.</p>
+            <form id="messageForm">
+                <input type="text" id="name" placeholder="nickname" required><br><br>
+                <input type="text" id="textColor" placeholder="text color"><br><br>
+                <input type="text" id="bgColor" placeholder="bg color"><br><br>
+                <textarea id="message" placeholder="..." required></textarea><br><br>
+                <button type="submit">enviar</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="container-sections" id="messages"></div>
+
+    <script>
+        document.getElementById("messageForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+            const textColor = document.getElementById("textColor").value || "#fff";
+            const bgColor = document.getElementById("bgColor").value || "#333";
+
+            const response = await fetch("http://localhost:3000/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, message, textColor, bgColor })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                addMessageToPage(data.data);
+            }
+        });
+
+        async function loadMessages() {
+            const response = await fetch("http://localhost:3000/messages");
+            const data = await response.json();
+            if (data.success) {
+                data.messages.forEach(addMessageToPage);
+            }
+        }
+
+        function addMessageToPage(msg) {
+            const div = document.createElement("div");
+            div.classList.add("message");
+            div.style.color = msg.textColor;
+            div.style.backgroundColor = msg.bgColor;
+            div.innerHTML = `<strong>${msg.name}:</strong> ${msg.message}`;
+            document.getElementById("messages").prepend(div);
+        }
+
+        loadMessages();
+    </script>
+
+</body>
+</html>
