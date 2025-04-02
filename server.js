@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-  origin: "*",
+  origin: "https://membrana.space/guests",
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"]
 }));
