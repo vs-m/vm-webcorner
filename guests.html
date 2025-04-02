@@ -128,30 +128,41 @@
     const API_URL = "https://vm-webcorner.onrender.com";
 
     document.getElementById("messageForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+
+        event.preventDefault();
 
         const name = document.getElementById("name").value;
         const message = document.getElementById("message").value;
         const textColor = document.getElementById("textColor").value || "#fff";
         const bgColor = document.getElementById("bgColor").value || "#333";
 
-        const response = await fetch(`${API_URL}/messages`, {
+        try {
+            const response = await fetch(`${API_URL}/messages`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, message, textColor, bgColor })
-        });
+            });
 
-        const data = await response.json();
-        if (data.success) {
+            const data = await response.json();
+            if (data.success) {
             addMessageToPage(data.data);
+            } else {
+            console.error("Erro ao enviar mensagem:", data.error);
+            }
+        } catch (error) {
+            console.error("Erro de conexão:", error);
         }
     });
 
     async function loadMessages() {
-        const response = await fetch(`${API_URL}/messages`);
-        const data = await response.json();
-        if (data.success) {
+        try {
+            const response = await fetch(`${API_URL}/messages`);
+            const data = await response.json();
+            if (data.success) {
             data.messages.forEach(addMessageToPage);
+            }
+        } catch (error) {
+            console.error("Erro ao carregar mensagens:", error);
         }
     }
 
