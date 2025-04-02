@@ -26,7 +26,7 @@ const MessageSchema = new mongoose.Schema({
 const Message = mongoose.model("Message", MessageSchema);
 
 app.use(cors({
-  origin: "https://vm-webcorner.onrender.com",
+  origin: "*",
   methods: ["GET", "POST", "DELETE"],
   allowedHeaders: ["Content-Type"]
 }));
