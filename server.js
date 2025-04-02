@@ -13,6 +13,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const upload = multer({ dest: "uploads/" });
 
@@ -25,7 +26,10 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
 app.use("/favicon.ico", express.static(path.join("public", "favicon.ico")));
+
+const messages = [];
 
 app.get("/", (req, res) => {
   res.send("servidor rodando.");
@@ -42,17 +46,21 @@ app.post("/messages", upload.single("image"), (req, res) => {
   const newMessage = {
     name,
     message,
-    textColor,
-    bgColor,
+    textColor: textColor || "#fff",
+    bgColor: bgColor || "#333",
     imageUrl,
     timestamp: new Date(),
   };
 
-  console.log("nova mensagem :", newMessage);
+  messages.unshift(newMessage);
+
+  console.log("nova mensagem:", newMessage);
   res.status(201).json({ success: true, data: newMessage });
 });
 
-app.use("/uploads", express.static("uploads"));
+app.get("/messages", (req, res) => {
+  res.json({ success: true, messages });
+});
 
 app.listen(port, () => {
   console.log(`servidor rodando em http://localhost:${port}`);
