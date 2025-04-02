@@ -173,6 +173,10 @@
     div.classList.add("message");
     div.style.color = msg.textColor;
     div.style.backgroundColor = msg.bgColor;
+    div.style.padding = "10px";
+    div.style.borderRadius = "8px";
+    div.style.textAlign = "center";
+    div.style.marginBottom = "10px";
     
     const date = new Date(msg.timestamp);
     const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
