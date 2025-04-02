@@ -89,5 +89,5 @@ app.delete("/messages/:id", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Servidor rodando em http://localhost:${port}`);
+  console.log(`servidor rodando em http://localhost:${port}`);
 });

@@ -90,6 +90,7 @@
             display: block;
             margin: 0 auto;
         }
+
     </style>
     <h1 class="title">membrana's<sup>webcorner*</sup></h1>
     <p class="sub-title">a.k.a vinícius moura's personal webpage</p>
@@ -105,6 +106,8 @@
             </table>
         </div>
     </nav>
+
+    <h2><img src="gifs/pcgif.gif"></h2>
 
     <div class="container-sections">
         <div class="section">
@@ -147,10 +150,10 @@
             if (data.success) {
             addMessageToPage(data.data);
             } else {
-            console.error("Erro ao enviar mensagem:", data.error);
+            console.error("erro ao enviar mensagem:", data.error);
             }
         } catch (error) {
-            console.error("Erro de conexão:", error);
+            console.error("erro de conexão:", error);
         }
     });
 
@@ -162,7 +165,7 @@
             data.messages.forEach(addMessageToPage);
             }
         } catch (error) {
-            console.error("Erro ao carregar mensagens:", error);
+            console.error("erro ao carregar mensagens:", error);
         }
     }
 
