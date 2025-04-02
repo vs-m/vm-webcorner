@@ -169,26 +169,26 @@
     }
 
     function addMessageToPage(msg) {
-    const div = document.createElement("div");
-    div.classList.add("message");
-    div.style.color = msg.textColor;
-    div.style.backgroundColor = msg.bgColor;
-    div.style.padding = "10px";
-    div.style.textAlign = "center";
-    div.style.marginBottom = "10px";
-    
-    const date = new Date(msg.timestamp);
-    const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
-                          `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
-                          `${date.getFullYear()} ` +
-                          `${date.getHours().toString().padStart(2, '0')}:` +
-                          `${date.getMinutes().toString().padStart(2, '0')}`;
+        const div = document.createElement("div");
+        div.classList.add("message");
+        div.style.color = msg.textColor;
+        div.style.backgroundColor = msg.bgColor;
+        div.style.padding = "10px";
+        div.style.textAlign = "center";
+        div.style.marginBottom = "10px";
+        
+        const date = new Date(msg.timestamp);
+        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
+                            `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                            `${date.getFullYear()} ` +
+                            `${date.getHours().toString().padStart(2, '0')}:` +
+                            `${date.getMinutes().toString().padStart(2, '0')}`;
 
-    div.innerHTML = `<strong>${msg.name}:</strong> ${msg.message}
-                     <div style="font-size: 0.8em; color: #aaa; margin-top: 4px;">${formattedDate}</div>`;
-    
-    document.getElementById("messages").prepend(div);
-}
+        div.innerHTML = `<strong>${msg.name}:</strong> ${msg.message}
+                        <div style="font-size: 0.8em; color: #aaa; margin-top: 4px;">${formattedDate}</div>`;
+        
+        document.getElementById("messages").prepend(div);
+    }
 
 
 
