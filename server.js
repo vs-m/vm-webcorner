@@ -73,11 +73,21 @@ app.post("/messages", upload.single("image"), async (req, res) => {
 app.get("/messages", async (req, res) => {
   try {
     const messages = await Message.find().sort({ timestamp: -1 });
-    res.json({ success: true, messages });
+
+    const formattedMessages = messages.map(msg => ({
+      ...msg._doc,
+      formattedTime: new Date(msg.timestamp).toLocaleString("pt-BR", { 
+        timeZone: "America/Sao_Paulo", 
+        hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric"
+      })
+    }));
+
+    res.json({ success: true, messages: formattedMessages });
   } catch (error) {
     res.status(500).json({ error: "erro ao buscar mensagens." });
   }
 });
+
 
 app.delete("/messages/:id", async (req, res) => {
   try {

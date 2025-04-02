@@ -173,9 +173,13 @@
         div.classList.add("message");
         div.style.color = msg.textColor;
         div.style.backgroundColor = msg.bgColor;
-        div.innerHTML = `<strong>${msg.name}:</strong> ${msg.message}`;
+        div.innerHTML = `
+            <strong>${msg.name}:</strong> ${msg.message}
+            <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">${msg.formattedTime}</div>
+        `;
         document.getElementById("messages").prepend(div);
     }
+
 
     loadMessages();
 
