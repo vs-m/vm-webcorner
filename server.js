@@ -6,7 +6,12 @@ import path from "path";
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json());
 
 const upload = multer({ dest: "uploads/" });
@@ -23,7 +28,7 @@ app.use(express.static("public"));
 app.use("/favicon.ico", express.static(path.join("public", "favicon.ico")));
 
 app.get("/", (req, res) => {
-  res.send("Servidor está rodando! 🚀");
+  res.send("servidor rodando.");
 });
 
 app.post("/messages", upload.single("image"), (req, res) => {
