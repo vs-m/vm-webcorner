@@ -163,7 +163,7 @@
 
             if (data.success) {
                 console.log("Mensagens carregadas:", data.messages);
-                document.getElementById("messages").innerHTML = ""; // Limpa antes de renderizar
+                document.getElementById("messages").innerHTML = "";
                 data.messages.forEach(addMessageToPage);
             }
         } catch (error) {
