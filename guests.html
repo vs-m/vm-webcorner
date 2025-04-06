@@ -64,9 +64,26 @@
         }
 
         .message {
-            padding: 10px;
-            border-radius: 0;
-            text-align: left;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 16px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-family: monospace;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        word-break: break-word;
+        }
+
+        .message strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 6px;
+        }
+
+        .message .timestamp {
+            font-size: 0.75em;
+            color: #ccc;
+            margin-top: 8px;
         }
 
         @media (max-width: 768px) {
@@ -188,11 +205,17 @@
                             `${date.getHours().toString().padStart(2, '0')}:` +
                             `${date.getMinutes().toString().padStart(2, '0')}`;
 
-        div.innerHTML = `<strong>${msg.name}:</strong> ${msg.message}
-                        <div style="font-size: 0.8em; color: #aaa; margin-top: 4px;">${formattedDate}</div>`;
+                            div.innerHTML = `
+                            <strong>${msg.name}</strong>
+                            <div>${msg.message}</div>
+                            <div class="timestamp">${formattedDate}</div>
+                        
+                        `;
+
         
         document.getElementById("messages").prepend(div);
     }
+    
     loadMessages()
 
     </script>
