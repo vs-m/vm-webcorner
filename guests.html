@@ -64,14 +64,16 @@
         }
 
         .message {
-        border: 1px solid rgba(255,255,255,0.1);
-        padding: 16px;
-        margin-bottom: 15px;
-        text-align: center;
-        font-family: monospace;
-        position: relative;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        word-break: break-word;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: monospace;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            word-break: break-word;
+            max-width: 400px;
+            flex: 1 1 300px;
         }
 
         .message strong {
@@ -84,7 +86,17 @@
             font-size: 0.75em;
             color: #ccc;
             margin-top: 8px;
-        }
+    }
+
+        #messages {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-start;
+        gap: 20px;
+        padding: 20px;
+    }
+
+
 
         @media (max-width: 768px) {
             .container-sections {
