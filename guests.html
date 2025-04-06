@@ -72,9 +72,14 @@
             position: relative;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             word-break: break-word;
-            max-width: 100%;
-            min-width: 250px;
-            flex: 1 1 300px;
+
+            background-color: rgba(0, 0, 0, 0.7);
+            
+            width: auto;
+            min-width: unset;
+            max-width: 90vw;
+
+            flex: 0 1 auto;
         }
 
         .message strong {
@@ -98,7 +103,7 @@
             max-width: 100%;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container-sections {
                 flex-direction: column;
                 align-items: center; 
@@ -111,6 +116,11 @@
 
             .navbar table {
                 width: 100%;
+            }
+
+            .message {
+                max-width: 95vw;
+                padding: 10px;
             }
         }
 
