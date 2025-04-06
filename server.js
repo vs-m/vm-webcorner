@@ -13,8 +13,8 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("Conectado ao MongoDB!"))
-.catch(err => console.error("Erro ao conectar ao MongoDB:", err));
+.then(() => console.log("conectado ao db"))
+.catch(err => console.error("erro ao conectar ao db:", err));
 
 const MessageSchema = new mongoose.Schema({
   name: String,
@@ -43,7 +43,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/favicon.ico", express.static(path.join("public", "favicon.ico")));
 
 app.get("/", (req, res) => {
-  res.send("Servidor rodando.");
+  res.send("servidor rodando.");
 });
 
 app.post("/messages", upload.single("image"), async (req, res) => {

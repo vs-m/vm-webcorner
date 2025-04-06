@@ -162,12 +162,12 @@
             const data = await response.json();
 
             if (data.success) {
-                console.log("Mensagens carregadas:", data.messages);
+                console.log("mensagens carregadas:", data.messages);
                 document.getElementById("messages").innerHTML = "";
                 data.messages.forEach(addMessageToPage);
             }
         } catch (error) {
-            console.error("Erro ao carregar mensagens:", error);
+            console.error("erro ao carregar mensagens:", error);
         }
     }
 
@@ -193,7 +193,7 @@
         
         document.getElementById("messages").prepend(div);
     }
-    loadMessages();
+    loadMessages()
 
     </script>
 
