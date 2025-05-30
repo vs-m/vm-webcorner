@@ -49,8 +49,7 @@ app.get("/", (req, res) => {
 app.post("/messages", upload.single("image"), async (req, res) => {
   try {
     const { name, message, textColor, bgColor } = req.body;
-    const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
-
+    const imageUrl = req.file ? `https://vm-webcorner.onrender.com/uploads/${req.file.filename}` : null;
 
     if (!name || (!message && !req.file)) {
       return res.status(400).json({ error: "mensagem ou imagem são obrigatórios." });
