@@ -51,9 +51,9 @@ app.post("/messages", upload.single("image"), async (req, res) => {
     const { name, message, textColor, bgColor } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-    if (!name || !message) {
-      return res.status(400).json({ error: "nome e mensagem são obrigatórios." });
-    }
+    if (!name || (!message && !req.file)) {
+      return res.status(400).json({ error: "mensagem ou imagem são obrigatórios." });
+    }    
 
     const newMessage = new Message({
       name,
