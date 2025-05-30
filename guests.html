@@ -122,6 +122,9 @@
                 max-width: 95vw;
                 padding: 10px;
             }
+            .message img {
+                max-height: 200px;
+            }
         }
 
         img {
@@ -130,6 +133,15 @@
             display: block;
             margin: 0 auto;
         }
+
+        .message img {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
 
     </style>
     <h1 class="title">membrana's<sup>webcorner*</sup></h1>
@@ -153,7 +165,7 @@
         <div class="section">
             <h2>vinícius moura's guestbook</h2>
             <p>contemple o invisível.</p>
-            <form id="messageForm">
+            <form id="messageForm" enctype="multipart/form-data">
                 <input type="text" id="name" placeholder="nickname" required><br><br>
                 <input type="text" id="textColor" placeholder="text color; ex.:#fff"><br><br>
                 <input type="text" id="bgColor" placeholder="background color; ex.:#fff"><br><br>
@@ -231,28 +243,26 @@
 
             const date = new Date(msg.timestamp);
             const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
-                `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
-                `${date.getFullYear()} ` +
-                `${date.getHours().toString().padStart(2, '0')}:` +
-                `${date.getMinutes().toString().padStart(2, '0')}`;
+                                `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                                `${date.getFullYear()} ` +
+                                `${date.getHours().toString().padStart(2, '0')}:` +
+                                `${date.getMinutes().toString().padStart(2, '0')}`;
+
+            let imgTag = '';
+            if (msg.imageUrl) {
+                imgTag = `<img src="${msg.imageUrl}" alt="imagem enviada" />`;
+            }
 
             div.innerHTML = `
                 <strong>${msg.name}</strong>
                 <div>${msg.message}</div>
-                ${msg.imageUrl ? `<img src="${msg.imageUrl}" style="max-width: 100%; margin-top: 10px;">` : ""}
+                ${imgTag}
                 <div class="timestamp">${formattedDate}</div>
             `;
 
-            if (msg.imageUrl) {
-                const img = document.createElement("img");
-                img.src = msg.imageUrl;
-                img.style.maxWidth = "100%";
-                img.style.marginTop = "6px";
-                div.appendChild(img);
-            }
-
             document.getElementById("messages").prepend(div);
         }
+
 
         loadMessages();
 
