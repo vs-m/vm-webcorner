@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,9 +121,6 @@
                 max-width: 95vw;
                 padding: 10px;
             }
-            .message img {
-                max-height: 200px;
-            }
         }
 
         img {
@@ -133,15 +129,6 @@
             display: block;
             margin: 0 auto;
         }
-
-        .message img {
-            max-width: 100%;
-            max-height: 300px;
-            margin-top: 10px;
-            border-radius: 4px;
-            object-fit: contain;
-        }
-
 
     </style>
     <h1 class="title">membrana's<sup>webcorner*</sup></h1>
@@ -165,12 +152,11 @@
         <div class="section">
             <h2>vinícius moura's guestbook</h2>
             <p>contemple o invisível.</p>
-            <form id="messageForm" enctype="multipart/form-data">
+            <form id="messageForm">
                 <input type="text" id="name" placeholder="nickname" required><br><br>
                 <input type="text" id="textColor" placeholder="text color; ex.:#fff"><br><br>
                 <input type="text" id="bgColor" placeholder="background color; ex.:#fff"><br><br>
                 <textarea id="message" placeholder="..." required></textarea><br><br>
-                <input type="file" id="image" accept="image/*"><br><br>
                 <button type="submit">enviar</button>
             </form>
         </div>
@@ -179,94 +165,82 @@
     <div class="container-sections" id="messages"></div>
 
     <script>
-        const API_URL = "https://vm-webcorner.onrender.com";
 
-        document.getElementById("messageForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+    const API_URL = "https://vm-webcorner.onrender.com";
 
-            const name = document.getElementById("name").value;
-            const message = document.getElementById("message").value;
-            const textColor = document.getElementById("textColor").value || "#fff";
-            const bgColor = document.getElementById("bgColor").value || "#333";
-            const imageFile = document.getElementById("image").files[0];
+    document.getElementById("messageForm").addEventListener("submit", async function(event) {
 
-            const formData = new FormData();
-            formData.append("name", name);
-            formData.append("message", message);
-            formData.append("textColor", textColor);
-            formData.append("bgColor", bgColor);
-            if (imageFile) {
-                formData.append("image", imageFile);
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const message = document.getElementById("message").value;
+        const textColor = document.getElementById("textColor").value || "#fff";
+        const bgColor = document.getElementById("bgColor").value || "#333";
+
+        try {
+            const response = await fetch(`${API_URL}/messages`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, message, textColor, bgColor })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+            addMessageToPage(data.data);
+            } else {
+            console.error("erro ao enviar mensagem:", data.error);
             }
-
-            try {
-                const response = await fetch(`${API_URL}/messages`, {
-                    method: "POST",
-                    body: formData
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    addMessageToPage(data.data);
-                } else {
-                    console.error("erro ao enviar mensagem:", data.error);
-                }
-            } catch (error) {
-                console.error("erro de conexão:", error);
-            }
-        });
-
-        async function loadMessages() {
-            try {
-                const response = await fetch(`${API_URL}/messages`);
-                const data = await response.json();
-
-                if (data.success) {
-                    document.getElementById("messages").innerHTML = "";
-                    data.messages.forEach(addMessageToPage);
-                }
-            } catch (error) {
-                console.error("erro ao carregar mensagens:", error);
-            }
+        } catch (error) {
+            console.error("erro de conexão:", error);
         }
+    });
 
-        function addMessageToPage(msg) {
-            const div = document.createElement("div");
-            div.classList.add("message");
-            div.style.color = msg.textColor;
-            div.style.backgroundColor = msg.bgColor;
-            div.style.padding = "10px";
-            div.style.textAlign = "center";
-            div.style.marginBottom = "10px";
+    async function loadMessages() {
+        try {
+            const response = await fetch(`${API_URL}/messages`);
+            const data = await response.json();
 
-            const date = new Date(msg.timestamp);
-            const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
-                                `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
-                                `${date.getFullYear()} ` +
-                                `${date.getHours().toString().padStart(2, '0')}:` +
-                                `${date.getMinutes().toString().padStart(2, '0')}`;
-
-            let imgTag = '';
-            if (msg.imageUrl) {
-                imgTag = `<img src="${msg.imageUrl}" alt="imagem enviada" />`;
+            if (data.success) {
+                console.log("mensagens carregadas:", data.messages);
+                document.getElementById("messages").innerHTML = "";
+                data.messages.forEach(addMessageToPage);
             }
-
-            div.innerHTML = `
-                <strong>${msg.name}</strong>
-                <div>${msg.message}</div>
-                ${imgTag}
-                <div class="timestamp">${formattedDate}</div>
-            `;
-
-            document.getElementById("messages").prepend(div);
+        } catch (error) {
+            console.error("erro ao carregar mensagens:", error);
         }
+    }
 
 
-        loadMessages();
+    function addMessageToPage(msg) {
+        const div = document.createElement("div");
+        div.classList.add("message");
+        div.style.color = msg.textColor;
+        div.style.backgroundColor = msg.bgColor;
+        div.style.padding = "10px";
+        div.style.textAlign = "center";
+        div.style.marginBottom = "10px";
+        
+        const date = new Date(msg.timestamp);
+        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
+                            `${(date.getMonth() + 1).toString().padStart(2, '0')}/` +
+                            `${date.getFullYear()} ` +
+                            `${date.getHours().toString().padStart(2, '0')}:` +
+                            `${date.getMinutes().toString().padStart(2, '0')}`;
 
+                            div.innerHTML = `
+                            <strong>${msg.name}</strong>
+                            <div>${msg.message}</div>
+                            <div class="timestamp">${formattedDate}</div>
+                        
+                        `;
+
+        
+        document.getElementById("messages").prepend(div);
+    }
+    
+    loadMessages()
 
     </script>
 
 </body>
 </html>
-

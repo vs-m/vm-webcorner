@@ -4,8 +4,6 @@ import multer from "multer";
 import mongoose from "mongoose";
 import path from "path";
 import dotenv from "dotenv";
-import axios from "axios";
-import fs from "fs";
 
 dotenv.config();
 const app = express();
@@ -40,6 +38,10 @@ app.use(express.urlencoded({ extended: true }));
 
 const upload = multer({ dest: "uploads/" });
 
+app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
+app.use("/favicon.ico", express.static(path.join("public", "favicon.ico")));
+
 app.get("/", (req, res) => {
   res.send("servidor rodando.");
 });
@@ -47,26 +49,10 @@ app.get("/", (req, res) => {
 app.post("/messages", upload.single("image"), async (req, res) => {
   try {
     const { name, message, textColor, bgColor } = req.body;
-    let imageUrl = null;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-    
-    if (req.file) {
-      const imageBuffer = fs.readFileSync(req.file.path);
-      const base64Image = imageBuffer.toString("base64");
-
-      const imgbbRes = await axios.post("https://api.imgbb.com/1/upload", null, {
-        params: {
-          key: process.env.IMGBB_API_KEY,
-          image: base64Image
-        }
-      });
-
-      imageUrl = imgbbRes.data.data.url;
-      fs.unlinkSync(req.file.path); 
-    }
-
-    if (!name || (!message && !imageUrl)) {
-      return res.status(400).json({ error: "mensagem ou imagem são obrigatórios." });
+    if (!name || !message) {
+      return res.status(400).json({ error: "nome e mensagem são obrigatórios." });
     }
 
     const newMessage = new Message({
@@ -79,9 +65,7 @@ app.post("/messages", upload.single("image"), async (req, res) => {
 
     await newMessage.save();
     res.status(201).json({ success: true, data: newMessage });
-
   } catch (error) {
-    console.error("erro no upload:", error.message);
     res.status(500).json({ error: "erro ao salvar mensagem." });
   }
 });
@@ -92,8 +76,8 @@ app.get("/messages", async (req, res) => {
 
     const formattedMessages = messages.map(msg => ({
       ...msg._doc,
-      formattedTime: new Date(msg.timestamp).toLocaleString("pt-BR", {
-        timeZone: "America/Sao_Paulo",
+      formattedTime: new Date(msg.timestamp).toLocaleString("pt-BR", { 
+        timeZone: "America/Sao_Paulo", 
         hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric"
       })
     }));
@@ -103,6 +87,7 @@ app.get("/messages", async (req, res) => {
     res.status(500).json({ error: "erro ao buscar mensagens." });
   }
 });
+
 
 app.delete("/messages/:id", async (req, res) => {
   try {
