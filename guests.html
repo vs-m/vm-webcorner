@@ -225,6 +225,9 @@
             div.classList.add("message");
             div.style.color = msg.textColor;
             div.style.backgroundColor = msg.bgColor;
+            div.style.padding = "10px";
+            div.style.textAlign = "center";
+            div.style.marginBottom = "10px";
 
             const date = new Date(msg.timestamp);
             const formattedDate = `${date.getDate().toString().padStart(2, '0')}/` +
@@ -239,6 +242,14 @@
                 ${msg.imageUrl ? `<img src="${msg.imageUrl}" style="max-width: 100%; margin-top: 10px;">` : ""}
                 <div class="timestamp">${formattedDate}</div>
             `;
+
+            if (msg.imageUrl) {
+                const img = document.createElement("img");
+                img.src = msg.imageUrl;
+                img.style.maxWidth = "100%";
+                img.style.marginTop = "6px";
+                div.appendChild(img);
+            }
 
             document.getElementById("messages").prepend(div);
         }
